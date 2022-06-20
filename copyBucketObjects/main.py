@@ -74,11 +74,11 @@ def copy(args, name, src, dest):
         }, dest_key)
     except botocore.exceptions.ClientError as e:
         if e.response['Error']['Code'] == '404':
-            print(f'{src_bucket} does not exist or doesn\'t have {src_key} object: \n', e)
+            print(f'{src_bucket} does not exist or doesn\'t have {src_key} object:\n', e)
         elif e.response['Error']['Code'] == 'NoSuchBucket':
-            print(f'{dest_bucket} not found: \n', e)
+            print(f'{dest_bucket} not found:\n', e)
         else:
-            print(f'error while copying {name}: \n', e)
+            print(f'error while copying {name}:\n', e)
         return
     print(f'{src_key} from {src_bucket} has been copied to {dest_bucket} in {dest_key}.')
 
@@ -91,11 +91,14 @@ def copy_objects():
     else:
         args.aws_session = boto3.session.Session()
 
-    with open(args.csv, newline='') as csvfile:
-        print(f'Reading {args.csv}...')
-        reader = csv.DictReader(csvfile)
-        for row in reader:
-            copy(args, row['name'], row['source_path'], row['destination_path'])
+    try:
+        with open(args.csv, newline='') as csvfile:
+            print(f'Reading {args.csv}...')
+            reader = csv.DictReader(csvfile)
+            for row in reader:
+                copy(args, row['name'], row['source_path'], row['destination_path'])
+    except Exception as e:
+        print('Error while reading CSV file:\n', e)
 
 
 if __name__ == '__main__':
