@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import argparse
+
 import boto3
 import botocore.exceptions
 
@@ -10,11 +11,11 @@ def parse_arguments():
         description='Tool used to delete empty and non-empty S3 Buckets'
     )
     parser.add_argument('-names', nargs='+', default=[], required=True,
-                        help="List of S3 Bucket names")
+                        help='List of S3 Bucket names')
     parser.add_argument('-profile', type=str, default=None,
                         help='AWS Profile, if not provided take your environment configuration')
     parser.add_argument('-auto-approve', dest='auto_approve', action='store_true',
-                        help="Skips interactive approval of S3 Buckets & S3 Bucket files deletion")
+                        help='Skips interactive approval of S3 Buckets & S3 Bucket files deletion')
     parser.set_defaults(auto_approve=False)
 
     args = parser.parse_args()
@@ -33,7 +34,7 @@ def cleanup_s3_bucket(s3_bucket):
 
 def validate_scope(sentence):
     validation = input(sentence)
-    if validation == "y":
+    if validation == 'y':
         return True
     else:
         return False
@@ -42,8 +43,8 @@ def validate_scope(sentence):
 def delete_buckets():
     args = parse_arguments()
 
-    print("Buckets to delete: ", args.names)
-    if not args.auto_approve and not validate_scope("Are you sure you want to delete those buckets (y): "):
+    print('Buckets to delete: ', args.names)
+    if not args.auto_approve and not validate_scope('Are you sure you want to delete those buckets (y): '):
         return
 
     if args.profile is not None:
@@ -51,7 +52,7 @@ def delete_buckets():
     else:
         aws_session = boto3.session.Session()
 
-    client = aws_session.client("s3")
+    client = aws_session.client('s3')
     for name in args.names:
         print(f'\nDeleting {name}...')
         try:
@@ -60,7 +61,7 @@ def delete_buckets():
             if e.response['Error']['Code'] == 'BucketNotEmpty':
                 print(f'{name} is not empty.')
                 if args.auto_approve or\
-                        validate_scope("Are you sure you want to delete all files in this bucket (y): "):
+                        validate_scope('Are you sure you want to delete all files in this bucket (y): '):
                     resource = aws_session.resource("s3")
                     s3_bucket = resource.Bucket(name)
                     cleanup_s3_bucket(s3_bucket)
@@ -68,10 +69,10 @@ def delete_buckets():
                 else:
                     continue
             elif e.response['Error']['Code'] == 'NoSuchBucket':
-                print(f'{name} doesn\'t exist.')
+                print(f'{name} doesn\'t exist:\n', e)
                 continue
             else:
-                print(f'\rror while deleting {name}:\n', e)
+                print(f'error while deleting {name}:\n', e)
                 continue
         print(f'{name} has been deleted.')
 

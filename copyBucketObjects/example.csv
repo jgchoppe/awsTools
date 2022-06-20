@@ -1,0 +1,4 @@
+name,source_path,destination_path
+my_file.png,bucket-source-jg,bucket-destination-jg/path/to/dest
+my_second_file.png,bucket-source-jg/files,bucket-destination-jg
+my_third_file.png,bucket-source-jg/files,bucket-source-jg/destination/in/same/bucket
