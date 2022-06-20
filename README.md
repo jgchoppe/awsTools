@@ -5,6 +5,7 @@
 ## 🛠 Tools
 
 - [Delete S3 Buckets](./deleteBuckets)
+- [Copy S3 Bucket Objects](./copyBucketObjects)
 
 ## Author
 
