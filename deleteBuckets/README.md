@@ -1,4 +1,4 @@
-# Delete S3 Buckets
+# 🗑 Delete S3 Buckets
 
 As its name implies, *deleteBuckets* allows you to delete a given list of S3 Buckets whether they are empty or not.
 
@@ -12,7 +12,7 @@ As its name implies, *deleteBuckets* allows you to delete a given list of S3 Buc
 pip install -r requirements.txt
 ```
 
-## Usage
+## 🚀 Usage
 
 ```shell
 $ ./main.py --help
@@ -32,7 +32,7 @@ optional arguments:
 - `-profile` - The AWS Profile you want to use to execute the deletion. If none is provided it will use your environment variables such as AWS credentials or `AWS_PROFILE`.
 - `-auto-approve` - Skips interactive approval of S3 Buckets and S3 Bucket files deletion. By default, *deleteBuckets* will always ask you before deleting all the Bucket and before deleting files in a non-empty Bucket.
 
-### Examples
+### ✨ Examples
 
 #### Delete Multiple S3 Buckets using AWS Profile
 
