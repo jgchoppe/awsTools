@@ -61,7 +61,7 @@ def delete_buckets():
                     cleanup_s3_bucket(s3_bucket)
                     client.delete_bucket(Bucket=name)
             else:
-                print(e)
+                print(f'Error while deleting {name}:\n', e)
         print(f'${name} has been deleted')
 
 
